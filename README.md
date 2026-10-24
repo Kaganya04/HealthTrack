@@ -76,7 +76,11 @@ Descriptive names, Python `snake_case`, PascalCase React components, small funct
 
 ## Tests
 
-Automated tests will be documented here as they are added, with the command and the observed result.
+Run the tests from `backend` with `.venv` active:
+
+    python -m pytest -q
+
+The tests use temporary database files, never `backend/data/healthtrack.db`. They cover schema validation, saving and retrieving entries, severity and description limits, malformed dates, date ranges, and persistence after a restart. Observed results are recorded in `docs/test-results.md`.
 
 ## Limitations
 
