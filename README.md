@@ -56,6 +56,12 @@ React shows the page, FastAPI handles requests, Pydantic validates data, and SQL
 - `frontend/src/api.js`: frontend HTTP helpers.
 - `frontend/src/components/`: the entry form and the history view.
 
+### Storage
+
+SQLite keeps the data in a file, `backend/data/healthtrack.db`, with no separate database server. This is one local diary, not a multi-patient service, so entries have no patient identifier.
+
+`repository.py` holds the SQL. It uses `?` parameters so user text is never part of a query, and its date-range lookup includes both the start and end dates.
+
 ### Validation decisions
 
 - The description is trimmed before it is checked, and must be 1 to 1,000 characters.
