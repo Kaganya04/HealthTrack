@@ -1,6 +1,6 @@
 # Test results
 
-Each entry records the date, commit, scenario, expected result, actual result and pass or fail.
+Each entry records the date, scenario, expected result, actual result and pass or fail.
 
 | Date | Scenario | Expected | Actual | Result |
 | --- | --- | --- | --- | --- |
@@ -22,7 +22,7 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | Browser: reload the page, choose the range again | Saved entries still shown | As expected | Pass |
 | 2026-10-24 | `npm run lint` and `npm run build` in `frontend` after the history feature | No errors | No errors | Pass |
 | 2026-10-24 | `python -m pytest -q` in `backend` before the core release | All tests pass | 71 passed | Pass |
-| 2026-10-24 | Fresh clone of `develop` into a new folder: create venv, `pip install -r requirements.txt`, run tests, `npm ci`, start both servers, save one entry and show it by date range, following only the README | Everything installs and runs | Installed, tests ran, entry saved and shown | Pass |
+| 2026-10-24 | Fresh clone of `develop` into a new folder using the documented install and run commands: create venv, `pip install -r requirements.txt`, run tests, `npm ci`, start both servers, save one entry and show it by date range | Everything installs and runs | Installed, tests ran, entry saved and shown | Pass |
 | 2026-10-24 | Smoke test on `main` after the merge: save one entry and show it by date range | Entry saved and listed | As expected | Pass |
 | 2026-10-24 | `python -m pytest -q` in `backend` after duplicate prevention (same date twice, first entry unchanged, different date allowed, repeat of an identical entry, invalid input on a taken date, count stays one, schema set up twice, two overlapping requests) | All tests pass | 79 passed | Pass |
 | 2026-10-24 | Browser: save an entry for a date, then a second entry for the same date | Second save refused with a readable message; typed text kept | As expected | Pass |
@@ -33,4 +33,4 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | Browser summary: range with no entries | "No entries in this date range." | As expected | Pass |
 | 2026-10-24 | Browser summary: start date after end date | Readable error | As expected | Pass |
 | 2026-10-24 | `npm run lint` and `npm run build` in `frontend` after the summary report | No errors | No errors | Pass |
-| 2026-10-24 | Fresh clone of `main` into a new folder, following only the README: create venv, `pip install -r requirements.txt`, run the tests, `npm install`, start both servers, save one entry, show it by date range, show the summary | Everything installs and runs | 103 tests passed; entry saved, listed and summarised | Pass |
+| 2026-10-24 | Fresh clone of `main` into a new folder, using the documented install and run commands: create venv, `pip install -r requirements.txt`, run the tests, `npm install`, start both servers, save one entry, show it by date range, show the summary | Everything installs and runs | 103 tests passed; entry saved, listed and summarised | Pass |
