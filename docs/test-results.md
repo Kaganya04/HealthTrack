@@ -12,3 +12,6 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | Browser `/docs`: GET with start after end | 422 with a clear message | 422, "Start date must not exceed end date" | Pass |
 | 2026-10-24 | Browser `/docs`: GET with start_date `bad` | 422 with a clear message | 422, "Use a date in YYYY-MM-DD format" | Pass |
 | 2026-10-24 | `python -m pytest -q` in `backend`: schemas plus API (save and retrieve, trimming, SQL-like text, severities 1 and 10, invalid severity and description, 1,000 and 1,001 characters, missing and malformed fields, ranges, missing and reversed parameters, restart persistence) | All tests pass | 71 passed | Pass |
+| 2026-10-24 | Browser form: valid entry, severity 1 and 10, spaces-only description, empty severity | "Entry saved" for valid entries; readable error for the invalid ones | As expected | Pass |
+| 2026-10-24 | Browser form: backend stopped, then Save, then backend restarted and Save again | Input kept and "Cannot reach the server" shown; saving works after restart | As expected | Pass |
+| 2026-10-24 | `npm run lint` and `npm run build` in `frontend` | No errors | No errors | Pass |

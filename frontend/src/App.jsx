@@ -1,23 +1,14 @@
-import { useState } from 'react'
+import SymptomForm from './components/SymptomForm'
+import './App.css'
 
 export default function App() {
-  const [message, setMessage] = useState('Not checked')
-
-  async function check() {
-    try {
-      const response = await fetch('/api/health')
-      if (!response.ok) throw new Error('Backend unavailable')
-      const data = await response.json()
-      setMessage(data.status)
-    } catch {
-      setMessage('Cannot reach backend on port 8000')
-    }
-  }
-
   return (
-    <>
-      <button onClick={check}>Check backend</button>
-      <p>{message}</p>
-    </>
+    <main className="page">
+      <header>
+        <h1>HealthTrack</h1>
+        <p className="subtitle">Daily symptom diary</p>
+      </header>
+      <SymptomForm />
+    </main>
   )
 }

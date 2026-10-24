@@ -56,6 +56,10 @@ React shows the page, FastAPI handles requests, Pydantic validates data, and SQL
 - `frontend/src/api.js`: frontend HTTP helpers.
 - `frontend/src/components/`: the entry form and the history view.
 
+### Frontend
+
+The page is a single React page. All HTTP calls live in `frontend/src/api.js`, so error handling is in one place and turns server errors into readable messages. The entry form checks the date, the description and the severity before it sends anything. The backend validates again and is the authority.
+
 ### Storage
 
 SQLite keeps the data in a file, `backend/data/healthtrack.db`, with no separate database server. This is one local diary, not a multi-patient service, so entries have no patient identifier.
