@@ -56,6 +56,14 @@ React shows the page, FastAPI handles requests, Pydantic validates data, and SQL
 - `frontend/src/api.js`: frontend HTTP helpers.
 - `frontend/src/components/`: the entry form and the history view.
 
+### Validation decisions
+
+- The description is trimmed before it is checked, and must be 1 to 1,000 characters.
+- Severity must be a true integer from 1 to 10. Decimals, booleans and numeric strings are rejected.
+- Dates must be real calendar dates in `YYYY-MM-DD` form.
+- Unknown fields in a request are rejected.
+- The description is free text. The app does not interpret it medically.
+
 ## Coding standards
 
 Descriptive names, Python `snake_case`, PascalCase React components, small functions and parameterized SQL. Comments explain non-obvious choices only.
