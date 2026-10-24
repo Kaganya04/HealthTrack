@@ -56,6 +56,14 @@ React shows the page, FastAPI handles requests, Pydantic validates data, and SQL
 - `frontend/src/api.js`: frontend HTTP helpers.
 - `frontend/src/components/`: the entry form and the history view.
 
+### One entry per day
+
+The diary allows one entry for each date. I read "prevent duplicate entries for the same day" as one entry per date for this single patient, so a second entry on a date is a conflict even when its description is different. The rule is enforced by a unique index on the date column in SQLite, so two requests that arrive at the same moment cannot both succeed. A conflict returns HTTP 409 with the message "An entry already exists for this date", no row is overwritten, and the form keeps what the user typed.
+
+Editing or deleting an existing entry is outside the current scope.
+
+If you have a database from before this rule that contains several entries for one date, the unique index cannot be created. For disposable demo data, rename `backend/data/healthtrack.db` and restart so a new database is created. Keep the old file out of Git.
+
 ### Frontend
 
 The page is a single React page. All HTTP calls live in `frontend/src/api.js`, so error handling is in one place and turns server errors into readable messages. The entry form checks the date, the description and the severity before it sends anything. The backend validates again and is the authority.
@@ -91,6 +99,7 @@ The tests use temporary database files, never `backend/data/healthtrack.db`. The
 
 - One fictional patient's local diary.
 - No authentication, no cloud deployment and no diagnosis, which are outside this project.
+- One entry per date. Entries cannot be edited or deleted.
 
 ## AI usage
 

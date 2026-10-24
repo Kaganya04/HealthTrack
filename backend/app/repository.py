@@ -1,12 +1,24 @@
+import sqlite3
+
 from .schemas import SymptomCreate
 
 
+class DuplicateDateError(Exception):
+    """Raised when an entry already exists for the same date."""
+
+
 def insert_symptom(conn, item: SymptomCreate):
-    cursor = conn.execute(
-        "INSERT INTO symptoms(date, description, severity) VALUES (?, ?, ?)",
-        (item.date.isoformat(), item.description, item.severity),
-    )
-    conn.commit()
+    try:
+        cursor = conn.execute(
+            "INSERT INTO symptoms(date, description, severity) VALUES (?, ?, ?)",
+            (item.date.isoformat(), item.description, item.severity),
+        )
+        conn.commit()
+    except sqlite3.IntegrityError as exc:
+        conn.rollback()
+        if "symptoms.date" in str(exc):
+            raise DuplicateDateError from exc
+        raise
     row = conn.execute(
         "SELECT id, date, description, severity FROM symptoms WHERE id = ?",
         (cursor.lastrowid,),

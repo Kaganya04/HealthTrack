@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi import Depends, FastAPI, HTTPException
 
 from .db import get_db, init_db
-from .repository import insert_symptom, list_symptoms
+from .repository import DuplicateDateError, insert_symptom, list_symptoms
 from .schemas import SymptomCreate, SymptomRead, parse_day
 
 
@@ -27,7 +27,13 @@ def create_app(db_path: Path | None = None):
 
     @app.post("/api/symptoms", status_code=201, response_model=SymptomRead)
     def create_symptom(item: SymptomCreate, conn=Depends(get_db)):
-        return insert_symptom(conn, item)
+        try:
+            return insert_symptom(conn, item)
+        except DuplicateDateError as exc:
+            raise HTTPException(
+                status_code=409,
+                detail="An entry already exists for this date",
+            ) from exc
 
     @app.get("/api/symptoms", response_model=list[SymptomRead])
     def get_symptoms(start_date: str, end_date: str, conn=Depends(get_db)):

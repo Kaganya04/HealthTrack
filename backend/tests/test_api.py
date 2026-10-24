@@ -160,3 +160,72 @@ def test_restart_persists(tmp_path):
     with TestClient(create_app(path)) as second:
         result = get_range(second, "2026-10-20", "2026-10-20")
     assert result.json() == [row]
+
+
+
+def test_second_entry_on_same_date_is_rejected_with_409(client):
+    first = add(client, day="2026-10-20", description="Headache", severity=4)
+    second = add(client, day="2026-10-20", description="Cough", severity=7)
+    assert first.status_code == 201
+    assert second.status_code == 409
+    assert second.json()["detail"] == "An entry already exists for this date"
+
+
+def test_first_entry_is_unchanged_after_a_conflict(client):
+    first = add(client, day="2026-10-20", description="Headache", severity=4).json()
+    add(client, day="2026-10-20", description="Cough", severity=7)
+    stored = get_range(client, "2026-10-20", "2026-10-20").json()
+    assert stored == [first]
+
+
+def test_same_description_on_a_different_date_succeeds(client):
+    assert add(client, day="2026-10-20", description="Headache").status_code == 201
+    assert add(client, day="2026-10-21", description="Headache").status_code == 201
+
+
+def test_identical_repeat_of_the_same_entry_is_also_a_conflict(client):
+    assert add(client).status_code == 201
+    assert add(client).status_code == 409
+
+
+def test_invalid_input_on_a_taken_date_still_returns_422(client):
+    add(client, day="2026-10-20")
+    assert add(client, day="2026-10-20", severity=11).status_code == 422
+
+
+def test_count_after_a_conflict_remains_one(client):
+    add(client, day="2026-10-20")
+    add(client, day="2026-10-20", description="Other")
+    add(client, day="2026-10-20", description="Another")
+    assert len(get_range(client, "2026-10-20", "2026-10-20").json()) == 1
+
+
+def test_schema_initialisation_twice_is_safe(tmp_path):
+    path = tmp_path / "twice.db"
+    with TestClient(create_app(path)) as first:
+        add(first)
+    with TestClient(create_app(path)) as second:
+        assert add(second, day="2026-10-21").status_code == 201
+        assert len(get_range(second, "2026-10-20", "2026-10-21").json()) == 2
+
+
+def test_overlapping_requests_for_one_day_create_one_row_and_one_conflict(tmp_path):
+    import threading
+
+    app = create_app(tmp_path / "race.db")
+    with TestClient(app) as test_client:
+        gate = threading.Barrier(2)
+        codes = []
+
+        def worker(text):
+            gate.wait()
+            codes.append(add(test_client, description=text).status_code)
+
+        threads = [threading.Thread(target=worker, args=(t,)) for t in ("A", "B")]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        assert sorted(codes) == [201, 409]
+        rows = get_range(test_client, "2026-10-20", "2026-10-20").json()
+        assert len(rows) == 1
