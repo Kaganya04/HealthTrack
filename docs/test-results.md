@@ -21,3 +21,5 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | Browser: save a description of `<script>alert(1)</script>` and show it | Shown as plain text, no popup | As expected | Pass |
 | 2026-10-24 | Browser: reload the page, choose the range again | Saved entries still shown | As expected | Pass |
 | 2026-10-24 | `npm run lint` and `npm run build` in `frontend` after the history feature | No errors | No errors | Pass |
+| 2026-10-24 | `python -m pytest -q` in `backend` before the core release | All tests pass | 71 passed | Pass |
+| 2026-10-24 | Fresh clone of `develop` into a new folder: create venv, `pip install -r requirements.txt`, run tests, `npm ci`, start both servers, save one entry and show it by date range, following only the README | Everything installs and runs | Installed, tests ran, entry saved and shown | Pass |
