@@ -33,3 +33,4 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | Browser summary: range with no entries | "No entries in this date range." | As expected | Pass |
 | 2026-10-24 | Browser summary: start date after end date | Readable error | As expected | Pass |
 | 2026-10-24 | `npm run lint` and `npm run build` in `frontend` after the summary report | No errors | No errors | Pass |
+| 2026-10-24 | Fresh clone of `main` into a new folder, following only the README: create venv, `pip install -r requirements.txt`, run the tests, `npm install`, start both servers, save one entry, show it by date range, show the summary | Everything installs and runs | 103 tests passed; entry saved, listed and summarised | Pass |
