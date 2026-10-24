@@ -27,3 +27,9 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | `python -m pytest -q` in `backend` after duplicate prevention (same date twice, first entry unchanged, different date allowed, repeat of an identical entry, invalid input on a taken date, count stays one, schema set up twice, two overlapping requests) | All tests pass | 79 passed | Pass |
 | 2026-10-24 | Browser: save an entry for a date, then a second entry for the same date | Second save refused with a readable message; typed text kept | As expected | Pass |
 | 2026-10-24 | Browser: same description on a different date, then show both dates | Saves; only the first entry for the repeated date and the new one are listed | As expected | Pass |
+| 2026-10-24 | Smoke test on `main` after the duplicate-prevention merge: save an entry, try a second for the same date, show the date | Second refused with a readable message; one entry listed | As expected | Pass |
+| 2026-10-24 | `python -m pytest -q` in `backend` after the summary report (three-entry example, no entries, one entry, severity extremes, rounding, normalisation, inclusive range, rows outside the range ignored, invalid and reversed ranges) | All tests pass | 103 passed | Pass |
+| 2026-10-24 | Browser summary: entries on 27, 28 and 29 Oct (Headache 4, headache 6, Nausea 2), summary for that range | 3 entries, average 4.00, 2 different descriptions, headache 2, nausea 1 | As expected | Pass |
+| 2026-10-24 | Browser summary: range with no entries | "No entries in this date range." | As expected | Pass |
+| 2026-10-24 | Browser summary: start date after end date | Readable error | As expected | Pass |
+| 2026-10-24 | `npm run lint` and `npm run build` in `frontend` after the summary report | No errors | No errors | Pass |

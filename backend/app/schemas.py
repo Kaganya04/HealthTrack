@@ -36,3 +36,11 @@ class SymptomRead(BaseModel):
     date: Date
     description: str
     severity: int
+
+
+
+class SummaryRead(BaseModel):
+    entry_count: int
+    average_severity: float | None
+    unique_symptom_count: int
+    symptom_frequency: dict[str, int]
