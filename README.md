@@ -59,6 +59,7 @@ React shows the page, FastAPI handles requests, Pydantic validates data, and SQL
 ### Frontend
 
 The page is a single React page. All HTTP calls live in `frontend/src/api.js`, so error handling is in one place and turns server errors into readable messages. The entry form checks the date, the description and the severity before it sends anything. The backend validates again and is the authority.
+The history panel shows entries for a chosen date range. Both the start date and the end date are included, and results are listed oldest first. After a save, the list refreshes when the new entry falls inside the selected range. Otherwise the page says the entry was saved outside the range. Dates are shown exactly as stored, and descriptions are rendered as plain text, never as HTML.
 
 ### Storage
 

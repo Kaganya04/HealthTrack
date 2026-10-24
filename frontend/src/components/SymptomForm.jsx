@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { saveSymptom } from '../api'
 
-export default function SymptomForm({ onSaved }) {
+export default function SymptomForm({ onSaved, onEdit }) {
   const [date, setDate] = useState('')
   const [description, setDescription] = useState('')
   const [severity, setSeverity] = useState('')
@@ -9,9 +9,10 @@ export default function SymptomForm({ onSaved }) {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  function clearMessages() {
+    function clearMessages() {
     setError('')
     setSuccess('')
+    if (onEdit) onEdit()
   }
 
   async function handleSubmit(event) {

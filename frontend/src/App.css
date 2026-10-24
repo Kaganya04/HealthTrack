@@ -7,6 +7,17 @@
 .page h1 { margin: 0; color: var(--accent); }
 .subtitle { margin: 4px 0 24px; color: var(--muted); }
 
+.layout {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 800px) {
+  .layout { grid-template-columns: 1fr 1fr; }
+}
+
 .card {
   background: #fff;
   border: 1px solid var(--border);
@@ -24,6 +35,7 @@ label {
 
 input, textarea {
   width: 100%;
+  min-width: 0;
   padding: 8px 10px;
   font: inherit;
   border: 1px solid var(--border);
@@ -62,3 +74,42 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .message.error { background: var(--error-bg); color: var(--error-text); }
 .message.success { background: var(--ok-bg); color: var(--ok-text); }
+.message.info { background: #e8f1fb; color: #1a4a7a; }
+
+.date-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.results { margin-top: 18px; }
+
+.entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.entry {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-weight: 600;
+}
+
+.entry-severity { color: var(--accent-dark); }
+
+.entry-text {
+  margin: 6px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

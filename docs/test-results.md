@@ -15,3 +15,9 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | Browser form: valid entry, severity 1 and 10, spaces-only description, empty severity | "Entry saved" for valid entries; readable error for the invalid ones | As expected | Pass |
 | 2026-10-24 | Browser form: backend stopped, then Save, then backend restarted and Save again | Input kept and "Cannot reach the server" shown; saving works after restart | As expected | Pass |
 | 2026-10-24 | `npm run lint` and `npm run build` in `frontend` | No errors | No errors | Pass |
+| 2026-10-24 | Browser history: save entries on two dates, then show the range covering both | Both entries listed, oldest first | As expected | Pass |
+| 2026-10-24 | Browser history: range with no entries (2026-11-01 to 2026-11-02) | "No entries in this date range." | As expected | Pass |
+| 2026-10-24 | Browser history: start date after end date | Readable error message | As expected | Pass |
+| 2026-10-24 | Browser: save a description of `<script>alert(1)</script>` and show it | Shown as plain text, no popup | As expected | Pass |
+| 2026-10-24 | Browser: reload the page, choose the range again | Saved entries still shown | As expected | Pass |
+| 2026-10-24 | `npm run lint` and `npm run build` in `frontend` after the history feature | No errors | No errors | Pass |
