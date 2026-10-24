@@ -21,7 +21,13 @@ Backend (from `backend`, Windows PowerShell):
 
 Frontend (from `frontend`), then open http://127.0.0.1:5173:
 
-    npx vite --host 127.0.0.1 --port 5173 --strictPort
+    npx vite
+
+The Vite dev server forwards requests starting with `/api` to the Python backend, so no CORS setup is needed.
+
+Backend (from `backend`, with `.venv` active), then open http://127.0.0.1:8000/docs:
+
+    python -m uvicorn app.main:app --reload --port 8000
 
 ## Development workflow
 
