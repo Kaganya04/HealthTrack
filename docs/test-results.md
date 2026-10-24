@@ -24,3 +24,6 @@ Each entry records the date, commit, scenario, expected result, actual result an
 | 2026-10-24 | `python -m pytest -q` in `backend` before the core release | All tests pass | 71 passed | Pass |
 | 2026-10-24 | Fresh clone of `develop` into a new folder: create venv, `pip install -r requirements.txt`, run tests, `npm ci`, start both servers, save one entry and show it by date range, following only the README | Everything installs and runs | Installed, tests ran, entry saved and shown | Pass |
 | 2026-10-24 | Smoke test on `main` after the merge: save one entry and show it by date range | Entry saved and listed | As expected | Pass |
+| 2026-10-24 | `python -m pytest -q` in `backend` after duplicate prevention (same date twice, first entry unchanged, different date allowed, repeat of an identical entry, invalid input on a taken date, count stays one, schema set up twice, two overlapping requests) | All tests pass | 79 passed | Pass |
+| 2026-10-24 | Browser: save an entry for a date, then a second entry for the same date | Second save refused with a readable message; typed text kept | As expected | Pass |
+| 2026-10-24 | Browser: same description on a different date, then show both dates | Saves; only the first entry for the repeated date and the new one are listed | As expected | Pass |

@@ -73,6 +73,7 @@ export default function SymptomForm({ onSaved, onEdit }) {
         value={date}
         onChange={event => { setDate(event.target.value); clearMessages() }}
       />
+            <p className="hint">Only one entry is allowed for each date.</p>
 
       <label htmlFor="symptom-description">Symptom description</label>
       <textarea

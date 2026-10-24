@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS symptoms (
         CHECK(typeof(severity) = 'integer' AND severity BETWEEN 1 AND 10)
 );
 CREATE INDEX IF NOT EXISTS ix_symptoms_date ON symptoms(date);
+CREATE INDEX IF NOT EXISTS ix_symptoms_date ON symptoms(date);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_symptoms_one_per_day
+    ON symptoms(date);
 """
 
 
