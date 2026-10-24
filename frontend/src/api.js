@@ -26,3 +26,12 @@ export function getSymptoms(startDate, endDate) {
   })
   return request(`/api/symptoms?${query}`)
 }
+
+
+export function getSummary(startDate, endDate) {
+  const query = new URLSearchParams({
+    start_date: startDate,
+    end_date: endDate,
+  })
+  return request(`/api/summary?${query}`)
+}

@@ -5,7 +5,9 @@ from fastapi import Depends, FastAPI, HTTPException
 
 from .db import get_db, init_db
 from .repository import DuplicateDateError, insert_symptom, list_symptoms
-from .schemas import SymptomCreate, SymptomRead, parse_day
+from .ranges import parse_range
+from .schemas import SummaryRead, SymptomCreate, SymptomRead
+from .summary import summarize
 
 
 def create_app(db_path: Path | None = None):
@@ -38,14 +40,18 @@ def create_app(db_path: Path | None = None):
     @app.get("/api/symptoms", response_model=list[SymptomRead])
     def get_symptoms(start_date: str, end_date: str, conn=Depends(get_db)):
         try:
-            start, end = parse_day(start_date), parse_day(end_date)
+            start, end = parse_range(start_date, end_date)
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
-        if start > end:
-            raise HTTPException(
-                status_code=422, detail="Start date must not exceed end date"
-            )
         return list_symptoms(conn, start, end)
+
+    @app.get("/api/summary", response_model=SummaryRead)
+    def get_summary(start_date: str, end_date: str, conn=Depends(get_db)):
+        try:
+            start, end = parse_range(start_date, end_date)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return summarize(list_symptoms(conn, start, end))
 
     return app
 

@@ -4,6 +4,7 @@ export default function SymptomHistory({
   onStartChange,
   onEndChange,
   onSubmit,
+  onSummary,
   entries,
   loading,
   error,
@@ -65,9 +66,19 @@ export default function SymptomHistory({
           </div>
         </div>
         <p className="hint">Both the start date and the end date are included.</p>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Loading' : 'Show entries'}
-        </button>
+        <div className="button-row">
+          <button type="submit" disabled={loading}>
+            {loading ? 'Loading' : 'Show entries'}
+          </button>
+          <button
+            type="button"
+            className="secondary"
+            disabled={loading}
+            onClick={onSummary}
+          >
+            Show summary
+          </button>
+        </div>
       </form>
 
       <div className="results">

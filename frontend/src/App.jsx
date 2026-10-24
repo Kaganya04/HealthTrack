@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import SymptomForm from './components/SymptomForm'
 import SymptomHistory from './components/SymptomHistory'
-import { getSymptoms } from './api'
+import SymptomSummary from './components/SymptomSummary'
+import { getSummary, getSymptoms } from './api'
 import './App.css'
 
 function rangeProblem(start, end) {
@@ -18,8 +19,13 @@ export default function App() {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [hasSearched, setHasSearched] = useState(false)
+  const [summary, setSummary] = useState(null)
+  const [summaryLoading, setSummaryLoading] = useState(false)
+  const [summaryError, setSummaryError] = useState('')
 
   function clearResults() {
+    setSummary(null)
+    setSummaryError('')
     setEntries([])
     setHasSearched(false)
     setError('')
@@ -70,6 +76,35 @@ export default function App() {
     await loadRange(startDate, endDate)
   }
 
+  async function loadSummary(start, end) {
+    setSummaryLoading(true)
+    setSummaryError('')
+    try {
+      setSummary(await getSummary(start, end))
+    } catch (err) {
+      setSummary(null)
+      setSummaryError(
+        err instanceof TypeError
+          ? 'Cannot reach the server. Check that the backend is running and try again.'
+          : err.message,
+      )
+    } finally {
+      setSummaryLoading(false)
+    }
+  }
+
+  async function handleSummary() {
+    if (summaryLoading) return
+    setNotice('')
+    const problem = rangeProblem(startDate, endDate)
+    if (problem) {
+      setSummary(null)
+      setSummaryError(problem)
+      return
+    }
+    await loadSummary(startDate, endDate)
+  }
+
   async function handleSaved(saved) {
     if (rangeProblem(startDate, endDate)) return
     if (saved.date < startDate || saved.date > endDate) {
@@ -78,6 +113,7 @@ export default function App() {
     }
     setNotice('')
     await loadRange(startDate, endDate)
+    if (summary) await loadSummary(startDate, endDate)
   }
 
   return (
@@ -94,11 +130,19 @@ export default function App() {
           onStartChange={changeStart}
           onEndChange={changeEnd}
           onSubmit={handleSearch}
+          onSummary={handleSummary}
           entries={entries}
           loading={loading}
           error={error}
           notice={notice}
           hasSearched={hasSearched}
+        />
+      </div>
+      <div className="summary-area">
+        <SymptomSummary
+          summary={summary}
+          loading={summaryLoading}
+          error={summaryError}
         />
       </div>
     </main>

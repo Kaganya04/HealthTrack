@@ -44,6 +44,8 @@ Success returns HTTP 201 with the stored values and a generated `id`. The descri
 
 Validation rules: severity is an integer from 1 to 10 (decimals, booleans and numeric strings are rejected); the description must be non-empty after trimming and at most 1,000 characters; dates are real calendar dates in `YYYY-MM-DD` form. Past and future dates are both allowed, because the brief does not restrict them.
 
+`GET /api/summary?start_date=2026-10-20&end_date=2026-10-22` returns the number of entries, the average severity and how often each description was logged for the same date range.
+
 ## Architecture and decisions
 
 React shows the page, FastAPI handles requests, Pydantic validates data, and SQLite stores it without a separate database server. A small repository module keeps SQL out of the HTTP code. This is separation of concerns; there is no interface hierarchy or dependency framework.
@@ -55,6 +57,19 @@ React shows the page, FastAPI handles requests, Pydantic validates data, and SQL
 - `backend/tests/`: automated API and persistence checks.
 - `frontend/src/api.js`: frontend HTTP helpers.
 - `frontend/src/components/`: the entry form and the history view.
+
+### Summary report
+
+`GET /api/summary?start_date=...&end_date=...` returns arithmetic over the entries in the date range. It uses the same inclusive range rules as the history endpoint.
+
+- `entry_count` is the number of entries in the range.
+- `average_severity` is the sum of severities divided by the number of entries, rounded to two decimals. It is `null` when there are no entries, and the page shows "No entries" instead of a severity of 0.
+- A symptom is the complete description after trimming, collapsing repeated spaces and ignoring capitalisation, so "Headache" and "headache" count together. A description such as "Headache, nausea" stays one label. The app does not recognise medical synonyms or split text into diagnoses.
+- `unique_symptom_count` is the number of different labels, and `symptom_frequency` lists how many entries use each label.
+
+Example for Headache 4, headache 6 and Nausea 2 on three dates: `{"entry_count": 3, "average_severity": 4.0, "unique_symptom_count": 2, "symptom_frequency": {"headache": 2, "nausea": 1}}`.
+
+The summary counts what was written. It is not medical advice.
 
 ### One entry per day
 

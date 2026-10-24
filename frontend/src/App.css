@@ -113,3 +113,59 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button.secondary {
+  color: var(--accent-dark);
+  background: #fff;
+  border: 2px solid var(--accent);
+  padding: 7px 16px;
+}
+
+button.secondary:hover:not(:disabled) { background: #e6f4f2; }
+
+.summary-area { margin-top: 20px; }
+
+.stats {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin: 0 0 16px;
+}
+
+.stats div {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.stats dt { font-size: 0.85rem; color: var(--muted); }
+.stats dd { margin: 4px 0 0; font-size: 1.15rem; font-weight: 700; }
+
+.card h3 { font-size: 1rem; margin: 0 0 8px; }
+
+.frequency {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.frequency li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.frequency-label { overflow-wrap: anywhere; }
+.frequency-count { font-weight: 700; color: var(--accent-dark); }
