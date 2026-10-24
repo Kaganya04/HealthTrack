@@ -5,6 +5,23 @@ HealthTrack is a local web app where a patient logs a daily symptom with a date,
 ## Setup and run
 
 Tested with Node.js v22.14.0, npm 10.9.2, Python 3.13.5 and Git 2.56.0 on Windows.
+### Install
+
+Frontend (from `frontend`):
+
+    npm install
+
+Backend (from `backend`, Windows PowerShell):
+
+    py -3.13 -m venv .venv
+    .\.venv\Scripts\Activate.ps1
+    python -m pip install -r requirements.txt
+
+### Run
+
+Frontend (from `frontend`), then open http://127.0.0.1:5173:
+
+    npx vite --host 127.0.0.1 --port 5173 --strictPort
 
 ## Development workflow
 
